@@ -2,8 +2,10 @@
 
 ![](https://github.com/osrf/autodock/workflows/ci/badge.svg)
 
-ROS packages for automatic docking
+## Hardware
+This repository is tested on ROS noetic along with Ubuntu 20.04.
 
+## Description
 `autodock` a state machine based auto docking solution for differential-drive robot,
 allows accurate and reliable docking. It utilizes 3 fiducial markers to locate the 
 position of the docking station. Hence, the Robot should equip with a camera input
