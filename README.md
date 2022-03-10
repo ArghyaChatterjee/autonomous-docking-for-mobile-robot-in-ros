@@ -28,7 +28,7 @@ Dependencies
 
 ```bash
 cd ~/catkin_ws/src
-git clone https://github.com/ArghyaChatterjee/autonomous-docking-for-mobile-robot-in-ROS.git --autodock
+git clone https://github.com/ArghyaChatterjee/autonomous-docking-for-mobile-robot-in-ROS.git autodock
 cd ~/catkin_ws
 rosdep update && rosdep install --from-paths src --ignore-src -yr
 catkin_make
