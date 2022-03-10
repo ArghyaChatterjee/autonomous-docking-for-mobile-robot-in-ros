@@ -27,8 +27,9 @@ Dependencies
  - [Turtlebot Simulation](http://wiki.ros.org/turtlebot3_simulations) ** Optional
 
 ```bash
-# First, clone repos and deps to 'catkin_ws/src', then install
-cd catkin_ws
+cd ~/catkin_ws/src
+git clone https://github.com/ArghyaChatterjee/autonomous-docking-for-mobile-robot-in-ROS.git --autodock
+cd ~/catkin_ws
 rosdep update && rosdep install --from-paths src --ignore-src -yr
 catkin_make
 ```
@@ -166,3 +167,8 @@ roslaunch autodock_sim dock_sim.launch autodock_server:=false
 roslaunch autodock_core autodock_server.launch \
     autodock_config:=src/autodock/autodock_examples/configs/mock_robot.yaml
 ```
+
+## Source 
+- [osrf-autodock](https://github.com/osrf/autodock)
+
+
