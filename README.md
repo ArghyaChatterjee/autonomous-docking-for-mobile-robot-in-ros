@@ -1,4 +1,4 @@
-# autodock
+# Autonomous Docking for ROS Robots
 
 ![](https://github.com/osrf/autodock/workflows/ci/badge.svg)
 
@@ -167,8 +167,5 @@ roslaunch autodock_sim dock_sim.launch autodock_server:=false
 roslaunch autodock_core autodock_server.launch \
     autodock_config:=src/autodock/autodock_examples/configs/mock_robot.yaml
 ```
-
-## Source 
-- [osrf-autodock](https://github.com/osrf/autodock)
 
 
