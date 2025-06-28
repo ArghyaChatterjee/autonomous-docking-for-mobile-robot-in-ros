@@ -157,10 +157,6 @@ docker run -it --network host osrf/autodock:v1 bash -c "$COMMAND"
 
 ---
 
-## Notes
-
-Initial code development was supported by [Kabam Robotics (Cognicept)](https://github.com/cognicept-admin).
-
 ### Future Work
 
 * Improve obstacle detection integration with costmap.
