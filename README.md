@@ -1,30 +1,25 @@
 # Autonomous Docking for ROS Robots
 
-![](https://github.com/osrf/autodock/workflows/ci/badge.svg)
+This repository provides ROS packages designed for precise and reliable autonomous docking of differential-drive robots. Utilizing a state machine-based approach and fiducial markers for navigation, robots equipped with camera sensors can achieve accurate docking without modifying existing navigation stacks.
 
-ROS packages for automatic docking
+<div align="center">
+  <img src="docs/dock_gz_sim.gif" alt="Gazebo Docking Simulation">  
+  <img src="docs/tb3_dock_sim.gif" alt="Turtlebot3 Docking Simulation">
+</div>
 
-`autodock` a state machine based auto docking solution for differential-drive robot,
-allows accurate and reliable docking. It utilizes 3 fiducial markers to locate the 
-position of the docking station. Hence, the Robot should equip with a camera input
-for fiducial marker detection. Note that, this package works on top of the navigation 
-stack, not making any alteration to the robot's nav stack. The solution is fully
-tested on multiple simulated and actual robots.
+---
 
-![](docs/dock_gz_sim.gif) ![](docs/tb3_dock_sim.gif)
+## Packages
 
-Packages:
- - `autodock_core`: Core autodock scripts and lib
- - `autodock_examples`: Examples for autodock
- - `autodock_sim`: Autodock Simulation
+* `autodock_core`: Core docking logic and libraries
+* `autodock_examples`: Demonstrations and test scripts
+* `autodock_sim`: Simulation environments for docking scenarios
+
+---
 
 ## Installation
 
-[ROS Noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) is used during development.
-
-Dependencies
- - [Fiducial](https://github.com/UbiquityRobotics/fiducials)
- - [Turtlebot Simulation](http://wiki.ros.org/turtlebot3_simulations) ** Optional
+Developed for **ROS Noetic**. Install dependencies first:
 
 ```bash
 cd ~/catkin_ws/src
@@ -33,113 +28,118 @@ cd ~/catkin_ws
 rosdep update && rosdep install --from-paths src --ignore-src -yr
 catkin_make
 ```
-## Architecture Diagram
 
-![](docs/architecture.png)
+Dependencies:
 
-## State Machine Diagram
-
-![](docs/state_diagram.png)
+* [Fiducial Marker Detection](https://github.com/UbiquityRobotics/fiducials)
+* [Turtlebot Simulation](http://wiki.ros.org/turtlebot3_simulations) (optional)
 
 ---
 
-## Run Examples on Simulation with MockRobot
+## Diagrams
 
-Run `MockRobot` in gazebo world
+### Architecture
+
+![Architecture](docs/architecture.png)
+
+### State Machine
+
+![State Machine](docs/state_diagram.png)
+
+---
+
+## Running Simulations
+
+### MockRobot Example in Gazebo
+
+Launch Gazebo simulation:
+
 ```bash
 roslaunch autodock_sim dock_sim.launch
 ```
 
-try to send an action goal request
+Send docking goal:
+
 ```bash
 rostopic pub /autodock_action/goal autodock_core/AutoDockingActionGoal {} --once
 ```
 
-Now you will see the robot starts to execute a series of autodocking sequence.
+The robot initiates docking upon receiving a goal and interacts with a simulated charger (`MockCharger`).
 
-> To explain..... when an action goal `AutoDockingActionGoal` is received by the robot, 
-the robot will start to docking sequence. When it manages to reach the targer 
-docking station, it will send a `std_srvs/Trigger` to the `MockCharger` charging 
-station, to activate the charger. The charger will validate if the robot is docked, 
-then send a "Success" back to the robot if all goes well.
-Subsequently, end the entire docking action.
+Control Commands:
 
 ```bash
-# To remote control the robot: 
+# Remote control robot
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
-# To cancel an active docking action: 
+
+# Cancel docking action
 rostopic pub /autodock_action/cancel actionlib_msgs/GoalID {} --once
-# To pause an active docking action: 
+
+# Pause docking action
 rostopic pub /pause_dock std_msgs/Bool True --once
 ```
 
-### More Tests
-
-This simple smoke test script will randomly move the robot to some random position 
-in the gazebo world, and initiate the docking sequence.
+Run smoke tests with random docking attempts:
 
 ```bash
-# indicate the number of "spawn" with the -c arg
 rosrun autodock_examples dock_sim_test.py -c 10
 ```
 
 ---
 
-## Run with turtlebot3
+## Turtlebot3 Docking Demonstrations
 
-This demonstrates front dock with turtlebot3, attached with a front camera. 
-A smaller docking station is used here.
+### Simple Docking
 
- - dependency: `sudo apt install ros-noetic-turtlebot3-gazebo`
+Install dependency:
+
+```bash
+sudo apt install ros-noetic-turtlebot3-gazebo
+```
+
+Launch Turtlebot3 docking:
 
 ```bash
 roslaunch autodock_sim tb3_dock_sim.launch
 rostopic pub /autodock_action/goal autodock_core/AutoDockingActionGoal {} --once
 ```
 
----
+### Docking with Navigation Stack
 
-## Run Turtlebot3 with navigation
-
-This demo depends on [turtlebot3_simulation](https://github.com/ROBOTIS-GIT/turtlebot3_simulations) 
-and [move_base](http://wiki.ros.org/move_base). 
-Please ensures that you have all dependencies are fully installed.
-
-> Note: You can install all turtlebot simulation related packages by 
-`sudo apt install ros-noetic-turtlebot3*`, or follow the setup steps in
-[Robotis docs](https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/). 
-Once done, continue to follow the steps to launch and map the world with a `burger` robot.
-
-Please ensures that entire pipeline of the turtlebot works before proceeding with the 
-autodock tb3 demo below. Once done with mapping, you can start with the `autodock` simulation:
+Ensure Turtlebot3 simulation and navigation stack are installed:
 
 ```bash
-# 1. launch turtlebot3 gazebo world, and also autodock_server
-roslaunch autodock_sim tb3_nav_dock_sim.launch
+sudo apt install ros-noetic-turtlebot3*
+```
 
-# 2. launch navigation stack, with provided map
-## New Terminal
+Run simulations:
+
+1. Launch world and docking server:
+
+```bash
+roslaunch autodock_sim tb3_nav_dock_sim.launch
+```
+
+2. Start the navigation stack:
+
+```bash
 export TURTLEBOT3_MODEL=burger
 roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/map.yaml open_rviz:=0
+```
 
-# 3. Now, localize the robot and move the robot around the world. 
+3. Localize and navigate robot, then send docking goal:
 
-# 4. send a dock action. make sure that the robot's camera is facing the charger
-## New Terminal
+```bash
 rostopic pub /autodock_action/goal autodock_core/AutoDockingActionGoal {} --once
 ```
 
-This will also demonstrate how the simple `obstacle_observer` works. 
-Try place an obstacle near the robot during docking and see if it pauses.
-
-> Note: the current `obstacle_observer` will only `pause` if it is 
-in `predock`, `steer_dock`, or `parralel_correction` state.
+The system includes obstacle detection during docking.
 
 ---
 
-### Docker Container
+## Docker Deployment
 
-A docker file is provieded to buid a container for autodock. Follow these steps:
+Build and run Docker container:
 
 ```bash
 cd catkin_ws/src/autodock
@@ -151,21 +151,23 @@ docker run -it --network host osrf/autodock:v1 bash -c "$COMMAND"
 
 ## Notes
 
-> The initial development of this code was graciously supported by [Kabam Robotics (aka Cognicept)](https://github.com/cognicept-admin).
+Initial code development was supported by [Kabam Robotics (Cognicept)](https://github.com/cognicept-admin).
 
 ### Future Work
- - Advance `ObstacleObserver`: filter occupancy of charging station on costmap.
 
-### Stray Commands 
+* Improve obstacle detection integration with costmap.
 
-Debug by launching autodock node on a seperate terminal
+---
+
+## Debugging
+
+Launch autodock server separately:
+
 ```bash
 # Terminal 1
 roslaunch autodock_sim dock_sim.launch autodock_server:=false
 
-# Terminal 2, specify config.yaml with the 'autodock_config' arg
+# Terminal 2
 roslaunch autodock_core autodock_server.launch \
     autodock_config:=src/autodock/autodock_examples/configs/mock_robot.yaml
 ```
-
-
