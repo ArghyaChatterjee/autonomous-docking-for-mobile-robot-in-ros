@@ -168,7 +168,4 @@ roslaunch autodock_core autodock_server.launch \
     autodock_config:=src/autodock/autodock_examples/configs/mock_robot.yaml
 ```
 
-## Source 
-- [osrf-autodock](https://github.com/osrf/autodock)
-
 
