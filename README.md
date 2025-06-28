@@ -42,7 +42,7 @@ Dependencies:
 
 <div align="center">
   <img src="docs/architecture.png" alt="architecture"  width="400">  
-  <img src="docs/autodock.png" alt="overall architecture"  width="400">
+  <img src="docs/auto_dock.png" alt="overall architecture"  width="400">
 </div>
 
 ### State Machine
