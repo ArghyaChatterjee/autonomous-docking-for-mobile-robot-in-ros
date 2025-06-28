@@ -3,8 +3,8 @@
 This repository provides ROS packages designed for precise and reliable autonomous docking of differential-drive robots. Utilizing a state machine-based approach and fiducial markers for navigation, robots equipped with camera sensors can achieve accurate docking without modifying existing navigation stacks.
 
 <div align="center">
-  <img src="docs/dock_gz_sim.gif" alt="Gazebo Docking Simulation">  
-  <img src="docs/tb3_dock_sim.gif" alt="Turtlebot3 Docking Simulation">
+  <img src="docs/dock_gz_sim.gif" alt="Gazebo Docking Simulation"  width="400">  
+  <img src="docs/tb3_dock_sim.gif" alt="Turtlebot3 Docking Simulation"  width="400">
 </div>
 
 ---
@@ -40,11 +40,16 @@ Dependencies:
 
 ### Architecture
 
-![Architecture](docs/architecture.png)
+<div align="center">
+  <img src="docs/architecture.png" alt="architecture"  width="400">  
+  <img src="docs/autodock.png" alt="overall architecture"  width="400">
+</div>
 
 ### State Machine
 
-![State Machine](docs/state_diagram.png)
+<div align="center">
+  <img src="docs/state_diagram.png" alt="architecture"  width="600">  
+</div>
 
 ---
 
