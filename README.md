@@ -15,6 +15,10 @@ This repository provides ROS packages designed for precise and reliable autonomo
 * `autodock_examples`: Demonstrations and test scripts
 * `autodock_sim`: Simulation environments for docking scenarios
 
+<div align="center">
+  <img src="docs/auto_dock.png" alt="overall architecture"  width="800">
+</div>
+
 ---
 
 ## Installation
@@ -41,8 +45,7 @@ Dependencies:
 ### Architecture
 
 <div align="center">
-  <img src="docs/architecture.png" alt="architecture"  width="400">  
-  <img src="docs/auto_dock.png" alt="overall architecture"  width="400">
+  <img src="docs/architecture.png" alt="architecture"  width="600"> 
 </div>
 
 ### State Machine
